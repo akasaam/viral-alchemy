@@ -76,8 +76,8 @@ export function Header() {
         isScrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6 lg:px-8 py-2">
-        <div className="flex h-14 items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <span className="text-xl font-bold">
@@ -86,12 +86,12 @@ export function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
+          <nav className="hidden md:flex items-center space-x-8">
             <NavigationMenu>
-              <NavigationMenuList className="space-x-1 lg:space-x-2">
+              <NavigationMenuList>
                 {/* Services Dropdown */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className={`text-sm font-medium py-2 px-3 transition-colors hover:text-va-purple ${
+                  <NavigationMenuTrigger className={`text-sm font-medium transition-colors hover:text-va-purple ${
                     location.pathname.includes('/services') ? "text-va-purple" : "text-foreground"
                   }`}>Services</NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -122,8 +122,8 @@ export function Header() {
                   <Link
                     key={link.name}
                     to={link.path}
-                    className={`text-sm font-medium py-2 px-3 rounded-md transition-colors hover:bg-accent/50 hover:text-va-purple ${
-                      location.pathname === link.path ? "text-va-purple bg-accent/30" : "text-foreground"
+                    className={`text-sm font-medium transition-colors hover:text-va-purple ${
+                      location.pathname === link.path ? "text-va-purple" : "text-foreground"
                     }`}
                   >
                     {link.name}
@@ -134,13 +134,13 @@ export function Header() {
           </nav>
           
           {/* Theme Switch & Mobile Menu Button */}
-          <div className="flex items-center">
+          <div className="flex items-center space-x-4">
             <ThemeSwitcher />
             
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon"
-              className="md:hidden ml-2 rounded-full"
+              className="md:hidden rounded-full"
               onClick={toggleMenu}
             >
               <Menu className="h-5 w-5" />
@@ -154,17 +154,17 @@ export function Header() {
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 bg-background md:hidden">
           <div className="p-4 flex justify-end">
-            <Button variant="ghost" size="icon" className="rounded-full" onClick={toggleMenu}>
+            <Button variant="outline" size="icon" className="rounded-full" onClick={toggleMenu}>
               <X className="h-5 w-5" />
               <span className="sr-only">Close</span>
             </Button>
           </div>
           
-          <nav className="mt-4 p-4 flex flex-col items-start space-y-4">
+          <nav className="mt-8 p-4 flex flex-col items-center space-y-8">
             <Link
               to="/services"
-              className={`w-full text-lg font-medium transition-colors px-3 py-2 rounded-md hover:bg-accent/50 hover:text-va-purple ${
-                location.pathname.includes('/services') ? "text-va-purple bg-accent/30" : "text-foreground"
+              className={`text-lg font-medium transition-colors hover:text-va-purple ${
+                location.pathname.includes('/services') ? "text-va-purple" : "text-foreground"
               }`}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -175,8 +175,8 @@ export function Header() {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`w-full text-lg font-medium transition-colors px-3 py-2 rounded-md hover:bg-accent/50 hover:text-va-purple ${
-                  location.pathname === link.path ? "text-va-purple bg-accent/30" : "text-foreground"
+                className={`text-lg font-medium transition-colors hover:text-va-purple ${
+                  location.pathname === link.path ? "text-va-purple" : "text-foreground"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -185,14 +185,14 @@ export function Header() {
             ))}
             
             {/* Service sub-links in mobile menu */}
-            <div className="w-full px-4 py-4 mt-2 bg-accent/20 rounded-lg">
-              <p className="text-sm font-semibold mb-3 text-foreground">Our Services</p>
-              <div className="space-y-3">
+            <div className="w-full px-4 py-2">
+              <p className="text-sm font-semibold mb-2 text-muted-foreground">Our Services</p>
+              <div className="space-y-2">
                 {serviceLinks.map((service) => (
                   <Link
                     key={service.title}
                     to={service.href}
-                    className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors"
+                    className="block text-sm py-1 px-2 rounded-md hover:bg-accent transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {service.title}
