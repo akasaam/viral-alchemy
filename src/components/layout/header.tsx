@@ -77,7 +77,7 @@ export function Header() {
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <span className="text-xl font-bold">
@@ -86,12 +86,12 @@ export function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-1">
             <NavigationMenu>
-              <NavigationMenuList>
+              <NavigationMenuList className="space-x-2">
                 {/* Services Dropdown */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className={`text-sm font-medium transition-colors hover:text-va-purple ${
+                  <NavigationMenuTrigger className={`text-sm font-medium px-3 py-2 transition-colors hover:text-va-purple ${
                     location.pathname.includes('/services') ? "text-va-purple" : "text-foreground"
                   }`}>Services</NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -122,8 +122,8 @@ export function Header() {
                   <Link
                     key={link.name}
                     to={link.path}
-                    className={`text-sm font-medium transition-colors hover:text-va-purple ${
-                      location.pathname === link.path ? "text-va-purple" : "text-foreground"
+                    className={`text-sm font-medium px-3 py-2 rounded-md transition-colors hover:text-va-purple hover:bg-accent/50 ${
+                      location.pathname === link.path ? "text-va-purple bg-accent/30" : "text-foreground"
                     }`}
                   >
                     {link.name}
@@ -138,9 +138,9 @@ export function Header() {
             <ThemeSwitcher />
             
             <Button
-              variant="outline"
+              variant="ghost"
               size="icon"
-              className="md:hidden rounded-full"
+              className="md:hidden rounded-full hover:bg-accent/50"
               onClick={toggleMenu}
             >
               <Menu className="h-5 w-5" />
@@ -154,13 +154,13 @@ export function Header() {
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 bg-background md:hidden">
           <div className="p-4 flex justify-end">
-            <Button variant="outline" size="icon" className="rounded-full" onClick={toggleMenu}>
+            <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent/50" onClick={toggleMenu}>
               <X className="h-5 w-5" />
               <span className="sr-only">Close</span>
             </Button>
           </div>
           
-          <nav className="mt-8 p-4 flex flex-col items-center space-y-8">
+          <nav className="mt-8 p-6 flex flex-col items-start space-y-6">
             <Link
               to="/services"
               className={`text-lg font-medium transition-colors hover:text-va-purple ${
@@ -185,14 +185,14 @@ export function Header() {
             ))}
             
             {/* Service sub-links in mobile menu */}
-            <div className="w-full px-4 py-2">
-              <p className="text-sm font-semibold mb-2 text-muted-foreground">Our Services</p>
-              <div className="space-y-2">
+            <div className="w-full mt-4 border-t border-border pt-6">
+              <p className="text-sm font-semibold mb-4 text-muted-foreground">Our Services</p>
+              <div className="space-y-4 pl-2">
                 {serviceLinks.map((service) => (
                   <Link
                     key={service.title}
                     to={service.href}
-                    className="block text-sm py-1 px-2 rounded-md hover:bg-accent transition-colors"
+                    className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {service.title}
