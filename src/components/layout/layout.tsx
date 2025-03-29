@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Header } from "./header";
 import { Footer } from "./footer";
 import { LoadingScreen } from "../ui/loading-screen";
-import { WhatsAppButton } from "../ui/whatsapp-button";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -35,7 +34,6 @@ export function Layout({ children }: LayoutProps) {
           <Header />
           <main className="flex-1 pt-16">{children}</main>
           <Footer />
-          <WhatsAppButton />
         </div>
       )}
     </>

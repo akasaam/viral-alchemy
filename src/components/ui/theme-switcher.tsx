@@ -10,28 +10,52 @@ import {
 } from "@/components/ui/tooltip";
 
 export function ThemeSwitcher() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("system");
 
   useEffect(() => {
     // Check for system preference
-    const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const initialTheme = isDarkMode ? "dark" : "light";
-    setTheme(initialTheme);
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const storedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
     
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
+    let initialTheme: "light" | "dark";
+    
+    if (storedTheme) {
+      initialTheme = storedTheme;
+    } else {
+      initialTheme = prefersDark ? "dark" : "light";
+      // We're using system preference, no need to store in localStorage
     }
+    
+    setTheme(initialTheme);
+    applyTheme(initialTheme);
+    
+    // Add listener for system preference changes
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!localStorage.getItem("theme")) {
+        const newTheme = e.matches ? "dark" : "light";
+        setTheme(newTheme);
+        applyTheme(newTheme);
+      }
+    };
+    
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    
+  const applyTheme = (newTheme: "light" | "dark") => {
     if (newTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
+  };
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    applyTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   return (

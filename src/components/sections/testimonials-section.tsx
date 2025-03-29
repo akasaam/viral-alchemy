@@ -1,7 +1,8 @@
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Marquee } from "@/components/ui/marquee";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface Testimonial {
   id: number;
@@ -55,6 +56,9 @@ export function TestimonialsSection() {
       image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80",
     },
   ];
+  
+  const [isDragging, setIsDragging] = useState(false);
+  const constraintsRef = useRef(null);
 
   return (
     <section className="py-20 relative overflow-hidden">
@@ -75,40 +79,70 @@ export function TestimonialsSection() {
         </motion.div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        <Marquee speed="slow" className="py-6">
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className="flex-shrink-0 w-80 md:w-96 p-6 mx-4 bg-card rounded-xl shadow-sm border"
-            >
-              <div className="flex items-start mb-4">
-                {testimonial.image && (
-                  <div className="mr-4 flex-shrink-0">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="h-12 w-12 rounded-full object-cover"
-                    />
+      <div className="relative overflow-hidden">
+        {/* Navigation buttons */}
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+          <Button size="icon" variant="outline" className="rounded-full shadow-lg">
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+        </div>
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+          <Button size="icon" variant="outline" className="rounded-full shadow-lg">
+            <ChevronRight className="h-5 w-5" />
+          </Button>
+        </div>
+        
+        {/* Draggable testimonials */}
+        <div ref={constraintsRef} className="overflow-hidden max-w-full">
+          <motion.div 
+            className="flex py-6 cursor-grab active:cursor-grabbing"
+            drag="x"
+            dragConstraints={constraintsRef}
+            onDragStart={() => setIsDragging(true)}
+            onDragEnd={() => setIsDragging(false)}
+            dragElastic={0.2}
+            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+          >
+            {testimonials.map((testimonial) => (
+              <motion.div
+                key={testimonial.id}
+                className="flex-shrink-0 w-80 md:w-96 p-6 mx-4 bg-card rounded-xl shadow-sm border"
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="flex items-start mb-4">
+                  {testimonial.image && (
+                    <div className="mr-4 flex-shrink-0">
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="h-12 w-12 rounded-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <h4 className="font-semibold">{testimonial.name}</h4>
+                    <p className="text-sm text-muted-foreground">
+                      {testimonial.position}, {testimonial.company}
+                    </p>
                   </div>
-                )}
-                <div>
-                  <h4 className="font-semibold">{testimonial.name}</h4>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonial.position}, {testimonial.company}
-                  </p>
                 </div>
-              </div>
-              <p className="text-muted-foreground">"{testimonial.testimonial}"</p>
-            </div>
+                <p className="text-muted-foreground">"{testimonial.testimonial}"</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+        
+        <div className="flex justify-center mt-6 space-x-2">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              className={`h-2 w-2 rounded-full ${index === 0 ? 'bg-primary' : 'bg-border'}`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
           ))}
-        </Marquee>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

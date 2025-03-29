@@ -1,9 +1,18 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,11 +35,36 @@ export function Header() {
     setIsMenuOpen(false);
   }, [location]);
 
+  const serviceLinks = [
+    { 
+      title: "Social Media Marketing", 
+      description: "Build your brand presence and engage your audience with strategic social media campaigns.",
+      href: "/services/social-media-marketing",
+      icon: "/placeholder.svg"
+    },
+    { 
+      title: "Search Engine Optimization", 
+      description: "Improve your visibility and drive organic traffic with data-driven SEO strategies.",
+      href: "/services/seo",
+      icon: "/placeholder.svg"
+    },
+    { 
+      title: "Content Marketing", 
+      description: "Tell your brand story and establish authority with compelling content strategies.",
+      href: "/services/content-marketing",
+      icon: "/placeholder.svg"
+    },
+    { 
+      title: "Website Development", 
+      description: "Create stunning, high-performance websites that convert visitors into customers.",
+      href: "/website-development",
+      icon: "/placeholder.svg"
+    },
+  ];
+
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Services", path: "/services" },
     { name: "Case Studies", path: "/case-studies" },
-    { name: "Website Development", path: "/website-development" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
     { name: "Work With Us", path: "/careers" }
@@ -53,17 +87,50 @@ export function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-va-purple ${
-                  location.pathname === link.path ? "text-va-purple" : "text-foreground"
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+            <NavigationMenu>
+              <NavigationMenuList>
+                {/* Services Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className={`text-sm font-medium transition-colors hover:text-va-purple ${
+                    location.pathname.includes('/services') ? "text-va-purple" : "text-foreground"
+                  }`}>Services</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                      {serviceLinks.map((service) => (
+                        <li key={service.title} className="row-span-1">
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to={service.href}
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                            >
+                              <div className="mb-2 mt-4 text-lg font-medium">
+                                {service.title}
+                              </div>
+                              <p className="text-sm leading-tight text-muted-foreground">
+                                {service.description}
+                              </p>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                
+                {/* Regular Nav Links */}
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className={`text-sm font-medium transition-colors hover:text-va-purple ${
+                      location.pathname === link.path ? "text-va-purple" : "text-foreground"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           </nav>
           
           {/* Theme Switch & Mobile Menu Button */}
@@ -71,12 +138,12 @@ export function Header() {
             <ThemeSwitcher />
             
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon"
-              className="md:hidden"
+              className="md:hidden rounded-full"
               onClick={toggleMenu}
             >
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
             </Button>
           </div>
@@ -87,13 +154,23 @@ export function Header() {
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 bg-background md:hidden">
           <div className="p-4 flex justify-end">
-            <Button variant="ghost" size="icon" onClick={toggleMenu}>
-              <X className="h-6 w-6" />
+            <Button variant="outline" size="icon" className="rounded-full" onClick={toggleMenu}>
+              <X className="h-5 w-5" />
               <span className="sr-only">Close</span>
             </Button>
           </div>
           
           <nav className="mt-8 p-4 flex flex-col items-center space-y-8">
+            <Link
+              to="/services"
+              className={`text-lg font-medium transition-colors hover:text-va-purple ${
+                location.pathname.includes('/services') ? "text-va-purple" : "text-foreground"
+              }`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Services
+            </Link>
+            
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -106,6 +183,23 @@ export function Header() {
                 {link.name}
               </Link>
             ))}
+            
+            {/* Service sub-links in mobile menu */}
+            <div className="w-full px-4 py-2">
+              <p className="text-sm font-semibold mb-2 text-muted-foreground">Our Services</p>
+              <div className="space-y-2">
+                {serviceLinks.map((service) => (
+                  <Link
+                    key={service.title}
+                    to={service.href}
+                    className="block text-sm py-1 px-2 rounded-md hover:bg-accent transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {service.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </nav>
         </div>
       )}
