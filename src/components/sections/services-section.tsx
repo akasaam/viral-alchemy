@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { ArrowRight, Database, Globe, Layers, LineChart, MessageSquare, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,42 +12,36 @@ export function ServicesSection() {
       title: "Social Media Marketing",
       content: "Build your brand presence and engage your audience with strategic social media campaigns.",
       icon: <MessageSquare className="h-6 w-6" />,
-      link: "/services/social-media-marketing"
     },
     {
       id: 2,
       title: "Search Engine Optimization",
       content: "Improve your visibility and drive organic traffic with data-driven SEO strategies.",
       icon: <Search className="h-6 w-6" />,
-      link: "/services/seo"
     },
     {
       id: 3,
       title: "Content Marketing",
       content: "Tell your brand story and establish authority with compelling content strategies.",
       icon: <Layers className="h-6 w-6" />,
-      link: "/services/content-marketing"
     },
     {
       id: 4,
       title: "Website Development",
       content: "Create stunning, high-performance websites that convert visitors into customers.",
       icon: <Globe className="h-6 w-6" />,
-      link: "/website-development"
     },
     {
       id: 5,
       title: "Data Analytics",
       content: "Make informed decisions with comprehensive data analysis and reporting.",
       icon: <Database className="h-6 w-6" />,
-      link: "/services"
     },
     {
       id: 6,
       title: "Performance Marketing",
       content: "Maximize ROI with targeted performance marketing campaigns that deliver results.",
       icon: <LineChart className="h-6 w-6" />,
-      link: "/services"
     },
   ];
 

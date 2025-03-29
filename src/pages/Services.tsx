@@ -1,3 +1,4 @@
+
 import { Layout } from "@/components/layout/layout";
 import { AnimatedGradient } from "@/components/ui/animated-gradient";
 import { AnimatedCards } from "@/components/ui/animated-cards";
@@ -5,7 +6,6 @@ import { motion } from "framer-motion";
 import { ArrowRight, BarChart, Database, Globe, Layers, LineChart, MessageSquare, Search, Share2, Target, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 const Services = () => {
   const mainServices = [
@@ -14,28 +14,24 @@ const Services = () => {
       title: "Social Media Marketing",
       content: "Build your brand presence and engage your audience with strategic social media campaigns.",
       icon: <MessageSquare className="h-6 w-6" />,
-      link: "/services/social-media-marketing"
     },
     {
       id: 2,
       title: "Search Engine Optimization",
       content: "Improve your visibility and drive organic traffic with data-driven SEO strategies.",
       icon: <Search className="h-6 w-6" />,
-      link: "/services/seo"
     },
     {
       id: 3,
       title: "Content Marketing",
       content: "Tell your brand story and establish authority with compelling content strategies.",
       icon: <Layers className="h-6 w-6" />,
-      link: "/services/content-marketing"
     },
     {
       id: 4,
       title: "Website Development",
       content: "Create stunning, high-performance websites that convert visitors into customers.",
       icon: <Globe className="h-6 w-6" />,
-      link: "/website-development"
     },
   ];
 
@@ -77,14 +73,6 @@ const Services = () => {
       icon: <LineChart className="h-6 w-6" />,
     },
   ];
-
-  const [pageLoaded, setPageLoaded] = useState(false);
-
-  useEffect(() => {
-    if (!pageLoaded) {
-      setPageLoaded(true);
-    }
-  }, []);
 
   return (
     <Layout>
@@ -142,11 +130,17 @@ const Services = () => {
                   <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
                   <p className="text-muted-foreground mb-6">{service.content}</p>
                   
-                  <Button asChild variant="outline">
-                    <Link to={service.link}>
+                  {service.title === "Website Development" ? (
+                    <Button asChild variant="outline">
+                      <Link to="/website-development">
+                        Learn More <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button variant="outline">
                       Learn More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
+                    </Button>
+                  )}
                 </div>
               </motion.div>
             ))}
