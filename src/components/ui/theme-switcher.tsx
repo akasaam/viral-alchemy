@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 
 export function ThemeSwitcher() {
-  const [theme, setTheme] = useState<"light" | "dark">("system");
+  const [theme, setTheme] = useState<"light" | "dark">("light"); // Initialize with a valid type
 
   useEffect(() => {
     // Check for system preference
