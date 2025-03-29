@@ -1,4 +1,3 @@
-
 import { Layout } from "@/components/layout/layout";
 import { AnimatedGradient } from "@/components/ui/animated-gradient";
 import { motion } from "framer-motion";
@@ -259,7 +258,6 @@ const About = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              order={2}
               className="order-2 lg:order-1"
             >
               <h2 className="text-3xl font-bold mb-6">
