@@ -84,11 +84,7 @@ export function HeroSection() {
           >
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-va-purple to-va-pink opacity-20 blur-xl animate-spinSlow" />
             <div className="absolute inset-4 rounded-full bg-gradient-to-br from-va-purple to-va-pink opacity-30 blur-lg animate-spinSlow" style={{ animationDirection: 'reverse', animationDuration: '15s' }} />
-            <img
-              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80"
-              alt="Digital Marketing Expertise"
-              className="rounded-2xl object-cover w-full h-full relative z-10 mask-radial-faded"
-            />
+            
           </motion.div>
         </div>
       </div>
