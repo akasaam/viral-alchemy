@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState, lazy, Suspense } from "react";
 
 // Lazy-loaded pages for better performance
@@ -74,35 +74,37 @@ const App = () => {
         <Toaster />
         <Sonner />
         <AnimatePresence>
-          {isLoading ? (
-            <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
-          ) : (
-            <Suspense fallback={<LoadingScreen onLoadingComplete={() => {}} />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/website-development" element={<WebsiteDevelopment />} />
-                <Route path="/case-studies" element={<CaseStudies />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/careers" element={<Careers />} />
-                
-                {/* Service Pages */}
-                <Route path="/services/social-media-marketing" element={<SocialMediaMarketing />} />
-                <Route path="/services/seo" element={<SEO />} />
-                <Route path="/services/content-marketing" element={<ContentMarketing />} />
-                
-                {/* Legal & Utility Pages */}
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                <Route path="/terms-of-service" element={<TermsOfService />} />
-                <Route path="/cookie-policy" element={<CookiePolicy />} />
-                <Route path="/sitemap" element={<Sitemap />} />
-                
-                {/* Catch-all route */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          )}
+          <BrowserRouter>
+            {isLoading ? (
+              <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
+            ) : (
+              <Suspense fallback={<LoadingScreen onLoadingComplete={() => {}} />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/services" element={<Services />} />
+                  <Route path="/website-development" element={<WebsiteDevelopment />} />
+                  <Route path="/case-studies" element={<CaseStudies />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/careers" element={<Careers />} />
+                  
+                  {/* Service Pages */}
+                  <Route path="/services/social-media-marketing" element={<SocialMediaMarketing />} />
+                  <Route path="/services/seo" element={<SEO />} />
+                  <Route path="/services/content-marketing" element={<ContentMarketing />} />
+                  
+                  {/* Legal & Utility Pages */}
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                  <Route path="/terms-of-service" element={<TermsOfService />} />
+                  <Route path="/cookie-policy" element={<CookiePolicy />} />
+                  <Route path="/sitemap" element={<Sitemap />} />
+                  
+                  {/* Catch-all route */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            )}
+          </BrowserRouter>
         </AnimatePresence>
       </TooltipProvider>
     </QueryClientProvider>
